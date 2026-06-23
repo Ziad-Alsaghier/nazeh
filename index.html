@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <title>صدقة جارية - نزيه عبدالمنعم </title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      overflow-x: hidden;
+      background: none;
+    }
+
+    #bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('./nazeh.jpeg') center/cover no-repeat;
+      z-index: -3;
+      animation: zoomBg 40s ease-in-out infinite alternate;
+      filter: brightness(0.6);
+    }
+
+    .overlay {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: -2;
+    }
+
+    /* 🌙 Stars */
+    #stars {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      opacity: 0.6;
+      animation: twinkle 3s infinite ease-in-out;
+    }
+
+    @keyframes twinkle {
+
+      0%,
+      100% {
+        opacity: 0.2;
+      }
+
+      50% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes zoomBg {
+      from {
+        transform: scale(1);
+      }
+
+      to {
+        transform: scale(1.1);
+      }
+    }
+
+    .fade-in {
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    button {
+      position: relative;
+      overflow: hidden;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    /* ✨ Ripple effect */
+    .ripple {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 50%;
+      transform: scale(0);
+      animation: rippleEffect 0.6s linear;
+    }
+
+    @keyframes rippleEffect {
+      to {
+        transform: scale(8);
+        opacity: 0;
+      }
+    }
+
+    /* 🕊️ Floating dua */
+    #duaText {
+      animation: floatText 4s ease-in-out infinite;
+    }
+
+    @keyframes floatText {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+
+    .dua-box {
+      max-height: 300px;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+
+<body class="text-white">
+
+  <div id="bg"></div>
+  <div class="overlay"></div>
+  <div id="stars"></div>
+
+  <section class="text-center py-20 fade-in">
+    <img src="./nazeh.jpeg" class="mx-auto w-100 h-100 rounded-full border-4 border-yellow-400 mb-6">
+
+    <h1 class="text-3xl md:text-5xl font-bold text-yellow-400">
+      صدقة جارية لروح نزيه عبدالمنعم السيد نعيم شتا
+    </h1>
+
+    <p class="mt-6 text-lg">
+      اللهم اجعل هذا العمل في ميزان حسناته 🤍
+    </p>
+
+    <div class="mt-8 flex justify-center gap-4 flex-wrap">
+      <button class="bg-yellow-400 text-black px-6 py-3 rounded-xl scroll-btn" data-target="#quran">📖 قرآن</button>
+      <button class="bg-white text-black px-6 py-3 rounded-xl scroll-btn" data-target="#dua">🤲 دعاء</button>
+      <button class="bg-green-400 text-black px-6 py-3 rounded-xl scroll-btn" data-target="#tasbeeh">📿 تسبيح</button>
+      <button class="bg-purple-400 text-black px-6 py-3 rounded-xl scroll-btn" data-target="#khatma">🕌 ختمة</button>
+      <button class="bg-blue-400 text-black px-6 py-3 rounded-xl scroll-btn" data-target="#dualist">💌 أدعية</button>
+    </div>
+  </section>
+
+  <!-- Quran -->
+  <section id="quran" class="p-10 text-center">
+    <h2 class="text-2xl text-yellow-400 mb-6">📖 قراءة القرآن</h2>
+    <button id="readBtn" class="bg-yellow-400 text-black px-6 py-3 rounded-xl">تم القراءة</button>
+    <p class="mt-4 text-xl">عدد القراءات: <span id="quranCount">0</span></p>
+  </section>
+
+  <!-- Dua -->
+  <section id="dua" class="p-10 text-center">
+    <h2 class="text-2xl mb-6">🤲 الدعاء</h2>
+    <button id="duaBtn" class="bg-white text-black px-6 py-3 rounded-xl">تم الدعاء</button>
+    <p class="mt-4 text-xl">عدد الدعاء: <span id="duaCount">0</span></p>
+  </section>
+
+  <!-- Tasbeeh -->
+  <!-- Tasbeeh -->
+  <!-- Tasbeeh -->
+  <section id="tasbeeh" class="p-10 text-center">
+    <h2 class="text-2xl text-green-400 mb-6">📿 التسبيح</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+
+      <div class="bg-black/40 p-5 rounded-xl">
+        <button id="subhanAllahBtn" class="bg-green-400 text-black px-6 py-3 rounded-xl w-full">
+          سبحان الله
+        </button>
+
+        <p class="mt-3">
+          العدد:
+          <span id="subhanAllahCount">0</span>
+        </p>
+
+        <p class="mt-3 text-yellow-300" id="subhanAllahDua">
+          اللهم اغفر له وارحمه واجعل قبره روضة من رياض الجنة
+        </p>
+      </div>
+
+      <div class="bg-black/40 p-5 rounded-xl">
+        <button id="alhamdulillahBtn" class="bg-blue-400 text-black px-6 py-3 rounded-xl w-full">
+          الحمد لله
+        </button>
+
+        <p class="mt-3">
+          العدد:
+          <span id="alhamdulillahCount">0</span>
+        </p>
+
+        <p class="mt-3 text-yellow-300" id="alhamdulillahDua">
+          اللهم لك الحمد حتى ترضى ولك الحمد إذا رضيت ولك الحمد بعد الرضا
+        </p>
+      </div>
+
+      <div class="bg-black/40 p-5 rounded-xl">
+        <button id="allahuAkbarBtn" class="bg-purple-400 text-black px-6 py-3 rounded-xl w-full">
+          الله أكبر
+        </button>
+
+        <p class="mt-3">
+          العدد:
+          <span id="allahuAkbarCount">0</span>
+        </p>
+
+        <p class="mt-3 text-yellow-300" id="allahuAkbarDua">
+          اللهم فرج عنه واجعل منزلته عالية في الفردوس الأعلى
+        </p>
+      </div>
+
+      <div class="bg-black/40 p-5 rounded-xl">
+        <button id="laIlahaBtn" class="bg-yellow-400 text-black px-6 py-3 rounded-xl w-full">
+          لا إله إلا الله
+        </button>
+
+        <p class="mt-3">
+          العدد:
+          <span id="laIlahaCount">0</span>
+        </p>
+
+        <p class="mt-3 text-yellow-300" id="laIlahaDua">
+          اللهم اختم له بخير واجعله من أهل الجنة بغير حساب
+        </p>
+      </div>
+
+    </div>
+
+    <div class="mt-8 text-2xl">
+      إجمالي التسبيحات:
+      <span id="totalTasbeeh">0</span>
+    </div>
+  </section>
+
+  <!-- Khatma -->
+  <section id="khatma" class="p-10 text-center">
+    <h2 class="text-2xl text-purple-400 mb-6">🕌 ختمة القرآن</h2>
+    <div id="juzList" class="grid grid-cols-2 md:grid-cols-5 gap-4"></div>
+    <p class="mt-6 text-xl">المكتمل: <span id="completedJuz">0</span> / 30</p>
+  </section>
+
+  <!-- Quran Reader -->
+  <section id="quranReader" class="p-10 text-center">
+    <h2 class="text-2xl text-yellow-400 mb-6">📖 المصحف</h2>
+    <iframe src="https://quran.com/1" class="w-full h-[500px]"></iframe>
+  </section>
+
+  <!-- Smart Dua -->
+  <section id="dualist" class="p-10 text-center">
+    <h2 class="text-2xl text-blue-400 mb-6">💌 أدعية جاهزة</h2>
+
+    <div id="duaText" class="bg-black/50 p-6 rounded-xl text-lg mb-6"></div>
+
+    <button id="nextDua" class="bg-blue-400 text-black px-6 py-3 rounded-xl">
+      تم الدعاء → التالي
+    </button>
+
+    <p class="mt-4 text-lg">
+      عدد الأدعية: <span id="duaSmartCount">0</span>
+    </p>
+  </section>
+
+  <footer class="text-center py-10 opacity-70">
+    اللهم ارحم نزيه عبدالمنعم السيد نعيم شتا 🤍
+  </footer>
+
+  <script>
+    $(document).ready(function () {
+
+      /* ✅ Generic Counter */
+      function setupCounter(key, btnId, displayId) {
+        let value = parseInt(localStorage.getItem(key)) || 0;
+        $(displayId).text(value);
+
+        $(btnId).click(() => {
+          value++;
+          $(displayId).text(value);
+          localStorage.setItem(key, value);
+        });
+      }
+
+      setupCounter("quran", "#readBtn", "#quranCount");
+      setupCounter("dua", "#duaBtn", "#duaCount");
+      setupCounter("tasbeeh", "#tasbeehBtn", "#tasbeehCount");
+
+      /* Scroll */
+      $(".scroll-btn").click(function () {
+        const target = $(this).data("target");
+        $("html, body").animate({
+          scrollTop: $(target).offset().top
+        }, 800);
+      });
+
+      /* 🌙 Stars */
+      function generateStars() {
+        for (let i = 0; i < 80; i++) {
+          let star = $("<div class='star'></div>");
+          star.css({
+            top: Math.random() * 100 + "%",
+            left: Math.random() * 100 + "%",
+            animationDelay: Math.random() * 3 + "s"
+          });
+          $("#stars").append(star);
+        }
+      }
+      generateStars();
+
+      /* Juz */
+      let completed = new Set(JSON.parse(localStorage.getItem("juzCompleted")) || []);
+
+      function renderJuz() {
+        $("#juzList").html("");
+
+        for (let i = 1; i <= 30; i++) {
+          let done = completed.has(i);
+
+          let btn = $(`
+            <button class="p-3 rounded ${done ? 'bg-green-400 text-black' : 'bg-gray-700'}">
+              جزء ${i}
+            </button>
+          `);
+
+          btn.click(() => {
+            done ? completed.delete(i) : completed.add(i);
+            localStorage.setItem("juzCompleted", JSON.stringify([...completed]));
+            renderJuz();
+          });
+
+          $("#juzList").append(btn);
+        }
+
+        $("#completedJuz").text(completed.size);
+      }
+      renderJuz();
+
+      /* Dua */
+      let duas = [
+        "اللهم اغفر له وارحمه وعافه واعف عنه",
+        "اللهم اجعل قبره روضة من رياض الجنة",
+        "اللهم آنس وحدته ونور قبره",
+        "اللهم ارزقه الفردوس الأعلى بدون حساب",
+        "اللهم اجعل القرآن شفيعًا له",
+        "اللهم اغسله بالماء والثلج والبرد",
+        "اللهم اجعل عملنا هذا صدقة جارية له",
+        "اللهم ارحمه رحمة واسعة"
+      ];
+
+      let index = 0;
+      let smartCount = parseInt(localStorage.getItem("duaSmartCount")) || 0;
+
+      $("#duaSmartCount").text(smartCount);
+      $("#duaText").text(duas[index]);
+
+      $("#nextDua").click(function () {
+        smartCount++;
+        localStorage.setItem("duaSmartCount", smartCount);
+        $("#duaSmartCount").text(smartCount);
+
+        index = (index + 1) % duas.length;
+
+        $("#duaText").fadeOut(200, function () {
+          $(this).text(duas[index]).fadeIn(200);
+        });
+      });
+
+      /* ✨ Ripple */
+      $("button").click(function (e) {
+        let ripple = $("<span class='ripple'></span>");
+        $(this).append(ripple);
+
+        ripple.css({
+          top: e.offsetY,
+          left: e.offsetX
+        });
+
+        setTimeout(() => ripple.remove(), 600);
+      });
+
+      /* Background movement */
+      $(document).mousemove(function (e) {
+        let x = (e.clientX / window.innerWidth - 0.5) * 15;
+        let y = (e.clientY / window.innerHeight - 0.5) * 15;
+        $("#bg").css("transform", `scale(1.05) translate(${x}px, ${y}px)`);
+      });
+
+
+      function setupTasbeeh(key, btnId, countId) {
+        let count = parseInt(localStorage.getItem(key)) || 0;
+
+        $(countId).text(count);
+
+        $(btnId).click(function () {
+          count++;
+
+          localStorage.setItem(key, count);
+
+          $(countId).text(count);
+
+          updateTotalTasbeeh();
+        });
+      }
+
+      function updateTotalTasbeeh() {
+
+        let total =
+          (parseInt(localStorage.getItem("subhanAllah")) || 0) +
+          (parseInt(localStorage.getItem("alhamdulillah")) || 0) +
+          (parseInt(localStorage.getItem("allahuAkbar")) || 0) +
+          (parseInt(localStorage.getItem("laIlaha")) || 0);
+
+        $("#totalTasbeeh").text(total);
+      }
+
+      setupTasbeeh(
+        "subhanAllah",
+        "#subhanAllahBtn",
+        "#subhanAllahCount"
+      );
+
+      setupTasbeeh(
+        "alhamdulillah",
+        "#alhamdulillahBtn",
+        "#alhamdulillahCount"
+      );
+
+      setupTasbeeh(
+        "allahuAkbar",
+        "#allahuAkbarBtn",
+        "#allahuAkbarCount"
+      );
+
+      setupTasbeeh(
+        "laIlaha",
+        "#laIlahaBtn",
+        "#laIlahaCount"
+      );
+
+      updateTotalTasbeeh();
+    });
+  </script>
+
+</body>
+
+</html>
